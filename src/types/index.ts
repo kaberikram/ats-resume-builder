@@ -1,29 +1,49 @@
+export interface PersonalInfo {
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+  linkedin: string;
+  summary: string;
+}
+
 export interface Experience {
   id: string;
-  title: string;
   company: string;
-  duration: string;
+  position: string;
+  startDate: string;
+  endDate: string;
   description: string;
+  title: string;
+  duration: string;
 }
 
 export interface Education {
   id: string;
-  degree: string;
   school: string;
+  degree: string;
+  field: string;
+  graduationDate: string;
   duration: string;
   description: string;
 }
 
 export interface Project {
   id: string;
-  name: string;
+  title: string;
   description: string;
+  technologies: string[];
+  link?: string;
+  startDate: string;
+  endDate: string;
+  name: string;
 }
 
 export interface Achievement {
   id: string;
   title: string;
   description: string;
+  date: string;
 }
 
 export interface Role {
@@ -42,4 +62,5 @@ export interface ResumeData {
   projects: Project[];
   achievements: Achievement[];
   skills: string[];
+  languages: string[];
 } 
