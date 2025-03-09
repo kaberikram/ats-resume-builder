@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ResumeData, Experience, Education, Project, Achievement, Role } from '@/types';
+import type { ResumeData, Experience, Education, Project, Achievement, Role } from '@/types';
 
 interface ResumeFormProps {
   data: ResumeData;
@@ -44,18 +44,19 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const addExperience = () => {
+    const newExperience: Experience = {
+      id: Date.now().toString(),
+      title: '',
+      company: '',
+      position: '',
+      startDate: '',
+      endDate: '',
+      duration: '',
+      description: ''
+    };
     onChange({
       ...data,
-      experience: [
-        ...data.experience,
-        {
-          id: Date.now().toString(),
-          title: '',
-          company: '',
-          duration: '',
-          description: '',
-        },
-      ],
+      experience: [...data.experience, newExperience],
     });
   };
 
@@ -69,18 +70,18 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const addEducation = () => {
+    const newEducation: Education = {
+      id: Date.now().toString(),
+      degree: '',
+      school: '',
+      field: '',
+      graduationDate: '',
+      duration: '',
+      description: ''
+    };
     onChange({
       ...data,
-      education: [
-        ...data.education,
-        {
-          id: Date.now().toString(),
-          degree: '',
-          school: '',
-          duration: '',
-          description: '',
-        },
-      ],
+      education: [...data.education, newEducation],
     });
   };
 
@@ -101,16 +102,18 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const addProject = () => {
+    const newProject: Project = {
+      id: Date.now().toString(),
+      name: '',
+      title: '',
+      description: '',
+      technologies: [],
+      startDate: '',
+      endDate: ''
+    };
     onChange({
       ...data,
-      projects: [
-        ...data.projects,
-        {
-          id: Date.now().toString(),
-          name: '',
-          description: '',
-        },
-      ],
+      projects: [...data.projects, newProject],
     });
   };
 
@@ -147,10 +150,15 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const addAchievement = () => {
-    const newId = String(data.achievements.length + 1);
+    const newAchievement: Achievement = {
+      id: Date.now().toString(),
+      title: '',
+      description: '',
+      date: ''
+    };
     onChange({
       ...data,
-      achievements: [...data.achievements, { id: newId, title: '', description: '' }]
+      achievements: [...data.achievements, newAchievement]
     });
   };
 
