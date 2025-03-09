@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <style>
+    path { fill: #0F172A; }
+    @media (prefers-color-scheme: dark) {
+      path { fill: #ffffff; }
+    }
+  </style>
+  <path fill-rule="evenodd" d="M3 2c0-.6.4-1 1-1h5l3 3v9c0 .6-.4 1-1 1H4c-.6 0-1-.4-1-1V2zm2 0v10h6V5H9c-.6 0-1-.4-1-1V2H5zm4 1.8L10.2 5H9V3.8z"/>
+  <path d="M6 7h4v1H6zM6 9h3v1H6zM6 11h4v1H6z"/>
+</svg> 

@@ -1,26 +1,149 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --background: 255, 255, 255;
+  --foreground: 0, 0, 0;
+  --accent: 0, 0, 0;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0, 0, 0;
+    --foreground: 255, 255, 255;
+    --accent: 255, 255, 255;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
+  font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--foreground), 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--foreground), 0.3);
+}
+
+/* PDF Viewer scrollbar styles */
+.pdf-viewer-container iframe {
+  @apply w-full h-full border-0;
+}
+
+.pdf-viewer-container iframe::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.pdf-viewer-container iframe::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pdf-viewer-container iframe::-webkit-scrollbar-thumb {
+  background: rgba(var(--foreground), 0.2);
+  border-radius: 3px;
+}
+
+.pdf-viewer-container iframe::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--foreground), 0.3);
+}
+
+/* Form styles */
+input, textarea {
+  @apply bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 
+         focus:ring-1 focus:ring-neutral-900 dark:focus:ring-neutral-100 
+         focus:border-neutral-900 dark:focus:border-neutral-100
+         focus:outline-none text-neutral-900 dark:text-neutral-100
+         placeholder:text-neutral-400 dark:placeholder:text-neutral-600;
+}
+
+button {
+  @apply transition-all duration-200 bg-black dark:bg-white text-white dark:text-black
+         hover:bg-neutral-800 dark:hover:bg-neutral-200 font-medium tracking-wide;
+}
+
+/* PDF Viewer Container */
+.pdf-viewer-container {
+  @apply relative h-[calc(100vh-8rem)] bg-white dark:bg-black rounded-lg 
+         border border-neutral-200 dark:border-neutral-800 overflow-hidden;
+}
+
+/* Theme switcher styles */
+.theme-switcher {
+  display: flex;
+  gap: 0.5rem;
+  padding: 4px;
+  background: rgb(var(--background));
+  border: 1px solid rgb(var(--foreground), 0.1);
+  border-radius: 24px;
+}
+
+.theme-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--foreground), 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.theme-button:hover {
+  transform: scale(1.1);
+}
+
+.theme-button.active {
+  transform: scale(0.9);
+}
+
+.theme-button-light {
+  background: #ffffff;
+}
+
+.theme-button-dark {
+  background: #000000;
+}
+
+.theme-button-light::before,
+.theme-button-dark::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.theme-button-light::before {
+  background: #000000;
+  transform: scale(0);
+}
+
+.theme-button-dark::before {
+  background: #ffffff;
+  transform: scale(0);
+}
+
+.theme-button-light:hover::before,
+.theme-button-dark:hover::before {
+  transform: scale(1);
 }
