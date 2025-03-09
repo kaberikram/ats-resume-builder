@@ -1,3 +1,5 @@
+'use client';
+
 import { PDFViewer, PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { ResumeData, Experience, Education, Project, Achievement } from '@/types';
 
@@ -65,16 +67,8 @@ const ResumeDocument = ({ data, theme, styles }: { data: ResumeData; theme: 'lig
           <Text style={styles.sectionTitle}>Key Projects</Text>
           {data.projects.map((proj: Project) => (
             <View key={proj.id} style={styles.experienceItem}>
-              <Text style={styles.projectTitle}>{proj.title || proj.name}</Text>
+              <Text style={styles.projectTitle}>{proj.name}</Text>
               <Text style={styles.description}>{proj.description}</Text>
-              {proj.technologies && proj.technologies.length > 0 && (
-                <Text style={styles.description}>
-                  Technologies: {proj.technologies.join(', ')}
-                </Text>
-              )}
-              {proj.link && (
-                <Text style={styles.description}>Link: {proj.link}</Text>
-              )}
             </View>
           ))}
         </View>
@@ -88,9 +82,6 @@ const ResumeDocument = ({ data, theme, styles }: { data: ResumeData; theme: 'lig
             <View key={achievement.id} style={styles.experienceItem}>
               <Text style={styles.achievementTitle}>{achievement.title}</Text>
               <Text style={styles.description}>{achievement.description}</Text>
-              {achievement.date && (
-                <Text style={styles.duration}>{achievement.date}</Text>
-              )}
             </View>
           ))}
         </View>

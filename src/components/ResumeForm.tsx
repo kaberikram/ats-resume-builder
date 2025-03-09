@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import type { ResumeData, Experience, Education, Project, Achievement, Role } from '@/types';
+import type { ResumeData, Experience, Education, Project, Achievement } from '@/types';
+
+type Role = ResumeData['roles'][number];
 
 interface ResumeFormProps {
   data: ResumeData;
@@ -48,9 +50,6 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
       id: Date.now().toString(),
       title: '',
       company: '',
-      position: '',
-      startDate: '',
-      endDate: '',
       duration: '',
       description: ''
     };
@@ -74,8 +73,6 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
       id: Date.now().toString(),
       degree: '',
       school: '',
-      field: '',
-      graduationDate: '',
       duration: '',
       description: ''
     };
@@ -105,11 +102,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
     const newProject: Project = {
       id: Date.now().toString(),
       name: '',
-      title: '',
-      description: '',
-      technologies: [],
-      startDate: '',
-      endDate: ''
+      description: ''
     };
     onChange({
       ...data,
@@ -153,8 +146,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
     const newAchievement: Achievement = {
       id: Date.now().toString(),
       title: '',
-      description: '',
-      date: ''
+      description: ''
     };
     onChange({
       ...data,
