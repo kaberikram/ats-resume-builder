@@ -17,13 +17,22 @@ export interface Education {
 export interface Project {
   id: string;
   name: string;
+  title?: string;
   description: string;
+  technologies?: string[];
+  link?: string;
 }
 
 export interface Achievement {
   id: string;
   title: string;
   description: string;
+  date?: string;
+}
+
+export interface Role {
+  id: string;
+  title: string;
 }
 
 export interface ResumeData {
@@ -31,7 +40,7 @@ export interface ResumeData {
   email: string;
   phone: string;
   location: string;
-  roles: { id: string; title: string }[];
+  roles: Role[];
   experience: Experience[];
   education: Education[];
   projects: Project[];

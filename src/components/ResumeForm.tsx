@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import type { ResumeData, Experience, Education, Project, Achievement } from '@/types';
-
-type Role = ResumeData['roles'][number];
+import { ResumeData, Experience, Education, Project, Achievement, Role } from '../types';
 
 interface ResumeFormProps {
   data: ResumeData;
@@ -46,16 +44,18 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const addExperience = () => {
-    const newExperience: Experience = {
-      id: Date.now().toString(),
-      title: '',
-      company: '',
-      duration: '',
-      description: ''
-    };
     onChange({
       ...data,
-      experience: [...data.experience, newExperience],
+      experience: [
+        ...data.experience,
+        {
+          id: Date.now().toString(),
+          title: '',
+          company: '',
+          duration: '',
+          description: '',
+        },
+      ],
     });
   };
 
@@ -69,16 +69,18 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const addEducation = () => {
-    const newEducation: Education = {
-      id: Date.now().toString(),
-      degree: '',
-      school: '',
-      duration: '',
-      description: ''
-    };
     onChange({
       ...data,
-      education: [...data.education, newEducation],
+      education: [
+        ...data.education,
+        {
+          id: Date.now().toString(),
+          degree: '',
+          school: '',
+          duration: '',
+          description: '',
+        },
+      ],
     });
   };
 
@@ -99,14 +101,16 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const addProject = () => {
-    const newProject: Project = {
-      id: Date.now().toString(),
-      name: '',
-      description: ''
-    };
     onChange({
       ...data,
-      projects: [...data.projects, newProject],
+      projects: [
+        ...data.projects,
+        {
+          id: Date.now().toString(),
+          name: '',
+          description: '',
+        },
+      ],
     });
   };
 
@@ -143,14 +147,10 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const addAchievement = () => {
-    const newAchievement: Achievement = {
-      id: Date.now().toString(),
-      title: '',
-      description: ''
-    };
+    const newId = String(data.achievements.length + 1);
     onChange({
       ...data,
-      achievements: [...data.achievements, newAchievement]
+      achievements: [...data.achievements, { id: newId, title: '', description: '' }]
     });
   };
 
@@ -171,9 +171,9 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   return (
-    <div className="space-y-8">
-      <section>
-        <h2 className="text-xl font-semibold mb-4 tracking-tight">
+    <div className="space-y-8 p-4 sm:p-6 max-w-3xl mx-auto">
+      <section className="space-y-6">
+        <h2 className="text-xl font-semibold tracking-tight">
           Personal Information
         </h2>
         <div className="space-y-4">
@@ -182,14 +182,14 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
             placeholder="Full Name"
             value={data.name}
             onChange={(e) => updateField('name', e.target.value)}
-            className="w-full p-3 rounded-lg"
+            className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
           />
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium">Professional Roles</label>
               <button
                 onClick={addRole}
-                className="px-3 py-1 text-sm rounded-lg"
+                className="px-3 py-1.5 text-sm rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100"
               >
                 Add Role
               </button>
@@ -217,29 +217,37 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
             placeholder="Email"
             value={data.email}
             onChange={(e) => updateField('email', e.target.value)}
-            className="w-full p-3 rounded-lg"
+            className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
           />
           <input
             type="tel"
             placeholder="Phone"
             value={data.phone}
             onChange={(e) => updateField('phone', e.target.value)}
-            className="w-full p-3 rounded-lg"
+            className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
           />
           <input
             type="text"
             placeholder="Location"
             value={data.location}
             onChange={(e) => updateField('location', e.target.value)}
-            className="w-full p-3 rounded-lg"
+            className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
           />
         </div>
       </section>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-4 tracking-tight">
-          Experience
-        </h2>
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold tracking-tight">
+            Experience
+          </h2>
+          <button 
+            onClick={addExperience} 
+            className="px-3 py-1.5 text-sm rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100"
+          >
+            Add Experience
+          </button>
+        </div>
         {data.experience.map((exp) => (
           <div key={exp.id} className="mb-6 p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
             <input
@@ -271,15 +279,20 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
             />
           </div>
         ))}
-        <button onClick={addExperience} className="w-full p-3 rounded-lg">
-          Add Experience
-        </button>
       </section>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-4 tracking-tight">
-          Education
-        </h2>
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold tracking-tight">
+            Education
+          </h2>
+          <button 
+            onClick={addEducation} 
+            className="px-3 py-1.5 text-sm rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100"
+          >
+            Add Education
+          </button>
+        </div>
         {data.education.map((edu) => (
           <div key={edu.id} className="mb-6 p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
             <input
@@ -311,15 +324,20 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
             />
           </div>
         ))}
-        <button onClick={addEducation} className="w-full p-3 rounded-lg">
-          Add Education
-        </button>
       </section>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-4 tracking-tight">
-          Key Projects
-        </h2>
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold tracking-tight">
+            Key Projects
+          </h2>
+          <button 
+            onClick={addProject} 
+            className="px-3 py-1.5 text-sm rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100"
+          >
+            Add Project
+          </button>
+        </div>
         {data.projects.map((proj) => (
           <div key={proj.id} className="mb-6 p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
             <input
@@ -337,13 +355,57 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
             />
           </div>
         ))}
-        <button onClick={addProject} className="w-full p-3 rounded-lg">
-          Add Project
-        </button>
       </section>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-4 tracking-tight">
+      <section className="space-y-6">
+        <h2 className="text-xl font-semibold tracking-tight">
+          Skills
+        </h2>
+        <textarea
+          placeholder="Enter skills separated by commas"
+          value={data.skills.join(', ')}
+          onChange={(e) => updateSkills(e.target.value)}
+          className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent min-h-[8rem]"
+        />
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold tracking-tight">
+            Languages
+          </h2>
+          <button
+            type="button"
+            onClick={addLanguage}
+            className="px-3 py-1.5 text-sm rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100"
+          >
+            Add Language
+          </button>
+        </div>
+        <div className="space-y-4">
+          {data.languages.map((language, index) => (
+            <div key={index} className="flex items-center gap-4">
+              <input
+                type="text"
+                value={language}
+                onChange={(e) => updateLanguage(index, e.target.value)}
+                placeholder="Language (e.g., English (Native))"
+                className="flex-1 px-3 py-2 rounded-lg"
+              />
+              <button
+                type="button"
+                onClick={() => removeLanguage(index)}
+                className="px-2 py-1 text-sm rounded-lg bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700"
+              >
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <h2 className="text-xl font-semibold tracking-tight">
           Achievements
         </h2>
         <div className="space-y-4">
@@ -384,54 +446,6 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
                   ×
                 </button>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <h2 className="text-xl font-semibold mb-4 tracking-tight">
-          Skills
-        </h2>
-        <textarea
-          placeholder="Enter skills separated by commas"
-          value={data.skills.join(', ')}
-          onChange={(e) => updateSkills(e.target.value)}
-          className="w-full p-3 rounded-lg h-32"
-        />
-      </section>
-
-      <section>
-        <h2 className="text-xl font-semibold mb-4 tracking-tight">
-          Languages
-        </h2>
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-bold">Languages</h2>
-            <button
-              type="button"
-              onClick={addLanguage}
-              className="px-3 py-1 text-sm rounded-lg"
-            >
-              Add Language
-            </button>
-          </div>
-          {data.languages.map((language, index) => (
-            <div key={index} className="flex items-center gap-4">
-              <input
-                type="text"
-                value={language}
-                onChange={(e) => updateLanguage(index, e.target.value)}
-                placeholder="Language (e.g., English (Native))"
-                className="flex-1 px-3 py-2 rounded-lg"
-              />
-              <button
-                type="button"
-                onClick={() => removeLanguage(index)}
-                className="px-2 py-1 text-sm rounded-lg bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700"
-              >
-                ×
-              </button>
             </div>
           ))}
         </div>
