@@ -113,10 +113,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
         {
           id: Date.now().toString(),
           name: '',
-          title: '',
-          description: '',
-          startDate: '',
-          endDate: '',
+          description: ''
         },
       ],
     });
@@ -244,6 +241,13 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
             placeholder="Location"
             value={data.location}
             onChange={(e) => updateField('location', e.target.value)}
+            className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
+          />
+          <input
+            type="text"
+            placeholder="LinkedIn or Portfolio URL (optional)"
+            value={data.linkedin || ''}
+            onChange={(e) => updateField('linkedin', e.target.value)}
             className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
           />
         </div>
@@ -435,29 +439,6 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
               onChange={(e) => updateProject(proj.id, 'name', e.target.value)}
               className="w-full p-3 rounded-lg mb-2 border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
             />
-            <input
-              type="text"
-              placeholder="Project Title"
-              value={proj.title}
-              onChange={(e) => updateProject(proj.id, 'title', e.target.value)}
-              className="w-full p-3 rounded-lg mb-2 border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
-            />
-            <div className="grid grid-cols-2 gap-2 mb-2">
-              <input
-                type="text"
-                placeholder="Start Date"
-                value={proj.startDate}
-                onChange={(e) => updateProject(proj.id, 'startDate', e.target.value)}
-                className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
-              />
-              <input
-                type="text"
-                placeholder="End Date"
-                value={proj.endDate}
-                onChange={(e) => updateProject(proj.id, 'endDate', e.target.value)}
-                className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
-              />
-            </div>
             <textarea
               placeholder="Project Description"
               value={proj.description}

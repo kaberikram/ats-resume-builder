@@ -10,6 +10,7 @@ const sampleProfile: ResumeData = {
   email: 'john.doe@gmail.com',
   phone: '+60 12-345 6789',
   location: 'Kuala Lumpur, Malaysia',
+  linkedin: 'https://linkedin.com/in/johndoe',
   roles: [
     { id: '1', title: 'Digital Marketing Manager' },
     { id: '2', title: 'Social Media Strategist' }
@@ -42,10 +43,7 @@ const sampleProfile: ResumeData = {
     {
       id: '1',
       name: 'Ramadan & Raya Digital Marketing Campaign 2023',
-      title: 'Ramadan & Raya Digital Marketing Campaign 2023',
-      description: 'Led end-to-end digital marketing strategy for nationwide festive campaign. Utilized multi-channel approach including social media, influencer partnerships, and paid advertising. Achieved 2M+ impressions and 400% increase in brand engagement metrics.',
-      startDate: 'March 2023',
-      endDate: 'May 2023',
+      description: 'Led end-to-end digital marketing strategy for nationwide festive campaign. Utilized multi-channel approach including social media, influencer partnerships, and paid advertising. Achieved 2M+ impressions and 400% increase in brand engagement metrics.'
     }
   ],
   achievements: [

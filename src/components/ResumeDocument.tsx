@@ -39,9 +39,14 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
     contactInfo: {
       flexDirection: 'row',
       justifyContent: 'center',
-      gap: 20,
+      flexWrap: 'wrap',
+      gap: 10,
       fontSize: 10,
       color: theme === 'light' ? '#333333' : '#cccccc',
+      marginTop: 4,
+    },
+    contactItem: {
+      marginHorizontal: 5,
     },
     section: {
       marginTop: 12,
@@ -134,9 +139,10 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
             {data.roles.map(role => role.title).join(' | ')}
           </Text>
           <View style={styles.contactInfo}>
-            <Text>{data.phone}</Text>
-            <Text>{data.email}</Text>
-            <Text>{data.location}</Text>
+            <Text style={styles.contactItem}>{data.phone}</Text>
+            <Text style={styles.contactItem}>{data.email}</Text>
+            <Text style={styles.contactItem}>{data.location}</Text>
+            {data.linkedin && <Text style={styles.contactItem}>{data.linkedin}</Text>}
           </View>
         </View>
 
@@ -212,14 +218,6 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
               <View key={proj.id} style={styles.experienceItem}>
                 <Text style={styles.projectTitle}>{proj.name}</Text>
                 <Text style={styles.description}>{proj.description}</Text>
-                {proj.technologies && proj.technologies.length > 0 && (
-                  <Text style={styles.description}>
-                    Technologies: {proj.technologies.join(', ')}
-                  </Text>
-                )}
-                {proj.link && (
-                  <Text style={styles.description}>Link: {proj.link}</Text>
-                )}
               </View>
             ))}
           </View>

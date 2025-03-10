@@ -4,7 +4,7 @@ export interface PersonalInfo {
   email: string;
   phone: string;
   location: string;
-  linkedin: string;
+  linkedin?: string;
 }
 
 export interface Experience {
@@ -30,12 +30,8 @@ export interface Education {
 
 export interface Project {
   id: string;
-  title: string;
-  description: string;
-  link?: string;
-  startDate: string;
-  endDate: string;
   name: string;
+  description: string;
 }
 
 export interface Achievement {
@@ -55,6 +51,7 @@ export interface ResumeData {
   email: string;
   phone: string;
   location: string;
+  linkedin?: string;
   summary: string;
   roles: Role[];
   experience: Experience[];
