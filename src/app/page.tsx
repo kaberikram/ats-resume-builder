@@ -19,7 +19,10 @@ const sampleProfile: ResumeData = {
     {
       id: '1',
       company: 'Media Prima Digital',
+      position: 'Senior Digital Marketing Manager',
       title: 'Senior Digital Marketing Manager',
+      startDate: 'June 2021',
+      endDate: 'Present',
       duration: 'June 2021 - Present',
       description: 'Developed and executed comprehensive digital marketing strategies for major Malaysian media brands\nLed and mentored a team of 5 content creators, driving 300% increase in social media engagement\nSpearheaded viral marketing campaigns achieving 5M+ impressions across Southeast Asia\nImplemented data-driven marketing strategies resulting in 150% ROI for advertising clients\nOptimized social media content using SEO best practices and analytics tools',
     }
@@ -28,7 +31,9 @@ const sampleProfile: ResumeData = {
     {
       id: '1',
       school: 'Universiti Malaya',
-      degree: 'Bachelor of Business Administration (Marketing)',
+      degree: 'Bachelor of Business Administration',
+      field: 'Marketing',
+      graduationDate: 'May 2021',
       duration: 'August 2017 - May 2021',
       description: 'CGPA: 3.8/4.0\nVice President of Marketing Society',
     }
@@ -37,7 +42,11 @@ const sampleProfile: ResumeData = {
     {
       id: '1',
       name: 'Ramadan & Raya Digital Marketing Campaign 2023',
+      title: 'Ramadan & Raya Digital Marketing Campaign 2023',
       description: 'Led end-to-end digital marketing strategy for nationwide festive campaign. Utilized multi-channel approach including social media, influencer partnerships, and paid advertising. Achieved 2M+ impressions and 400% increase in brand engagement metrics.',
+      technologies: ['Meta Ads', 'Google Analytics', 'Hootsuite', 'Canva'],
+      startDate: 'March 2023',
+      endDate: 'May 2023',
     }
   ],
   achievements: [
@@ -45,6 +54,7 @@ const sampleProfile: ResumeData = {
       id: '1',
       title: 'Digital Marketing Excellence Award - Malaysia 2022',
       description: 'Gold award recipient for Best Integrated Social Media Campaign, recognized for innovative digital marketing strategies and measurable business impact.',
+      date: 'November 2022'
     }
   ],
   skills: [

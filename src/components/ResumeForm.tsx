@@ -52,6 +52,9 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
           id: Date.now().toString(),
           title: '',
           company: '',
+          position: '',
+          startDate: '',
+          endDate: '',
           duration: '',
           description: '',
         },
@@ -77,6 +80,8 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
           id: Date.now().toString(),
           degree: '',
           school: '',
+          field: '',
+          graduationDate: '',
           duration: '',
           description: '',
         },
@@ -108,7 +113,11 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
         {
           id: Date.now().toString(),
           name: '',
+          title: '',
           description: '',
+          technologies: [],
+          startDate: '',
+          endDate: '',
         },
       ],
     });
@@ -150,7 +159,12 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
     const newId = String(data.achievements.length + 1);
     onChange({
       ...data,
-      achievements: [...data.achievements, { id: newId, title: '', description: '' }]
+      achievements: [...data.achievements, { 
+        id: newId, 
+        title: '', 
+        description: '',
+        date: ''
+      }]
     });
   };
 
