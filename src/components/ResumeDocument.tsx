@@ -140,6 +140,14 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
           </View>
         </View>
 
+        {/* Summary */}
+        {data.summary && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Professional Summary</Text>
+            <Text style={styles.description}>{data.summary}</Text>
+          </View>
+        )}
+
         {/* Experience */}
         {data.experience.length > 0 && (
           <View style={styles.section}>
@@ -164,6 +172,38 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
           </View>
         )}
 
+        {/* Education */}
+        {data.education.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Education</Text>
+            {data.education.map((edu: Education) => (
+              <View key={edu.id} style={styles.experienceItem}>
+                <View style={styles.companyHeader}>
+                  <Text style={styles.companyName}>{edu.school}</Text>
+                  <Text style={styles.duration}>{edu.duration}</Text>
+                </View>
+                <Text style={styles.jobTitle}>{edu.degree}</Text>
+                {edu.description && (
+                  <Text style={styles.description}>{edu.description}</Text>
+                )}
+              </View>
+            ))}
+          </View>
+        )}
+
+        {/* Achievements */}
+        {data.achievements.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Achievements</Text>
+            {data.achievements.map((achievement: Achievement) => (
+              <View key={achievement.id} style={styles.experienceItem}>
+                <Text style={styles.achievementTitle}>{achievement.title}</Text>
+                <Text style={styles.description}>{achievement.description}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+
         {/* Projects */}
         {data.projects.length > 0 && (
           <View style={styles.section}>
@@ -179,25 +219,6 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
                 )}
                 {proj.link && (
                   <Text style={styles.description}>Link: {proj.link}</Text>
-                )}
-              </View>
-            ))}
-          </View>
-        )}
-
-        {/* Education */}
-        {data.education.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Education</Text>
-            {data.education.map((edu: Education) => (
-              <View key={edu.id} style={styles.experienceItem}>
-                <View style={styles.companyHeader}>
-                  <Text style={styles.companyName}>{edu.school}</Text>
-                  <Text style={styles.duration}>{edu.duration}</Text>
-                </View>
-                <Text style={styles.jobTitle}>{edu.degree}</Text>
-                {edu.description && (
-                  <Text style={styles.description}>{edu.description}</Text>
                 )}
               </View>
             ))}
