@@ -1,5 +1,5 @@
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import { ResumeData, Experience, Education, Project, Achievement } from '@/types';
+import { ResumeData, Experience, Education, Project, Achievement } from '@/types/index';
 
 // Function to split description into bullet points
 const getBulletPoints = (text: string): string[] => {
