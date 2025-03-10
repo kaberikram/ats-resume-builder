@@ -44,7 +44,6 @@ const sampleProfile: ResumeData = {
       name: 'Ramadan & Raya Digital Marketing Campaign 2023',
       title: 'Ramadan & Raya Digital Marketing Campaign 2023',
       description: 'Led end-to-end digital marketing strategy for nationwide festive campaign. Utilized multi-channel approach including social media, influencer partnerships, and paid advertising. Achieved 2M+ impressions and 400% increase in brand engagement metrics.',
-      technologies: ['Meta Ads', 'Google Analytics', 'Hootsuite', 'Canva'],
       startDate: 'March 2023',
       endDate: 'May 2023',
     }
