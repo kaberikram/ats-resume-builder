@@ -1,3 +1,4 @@
+// Resume data types
 export interface PersonalInfo {
   name: string;
   email: string;
