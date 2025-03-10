@@ -2,7 +2,7 @@
 
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 import ResumeDocument from '@/components/ResumeDocument';
-import { ResumeData } from '@/types';
+import { ResumeData } from '@/types/index';
 
 interface PDFPreviewProps {
   data: ResumeData;

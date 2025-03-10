@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ResumeData, Experience, Education, Project, Achievement, Role } from '../types';
+import { ResumeData, Experience, Education, Project, Achievement, Role } from '@/types/index';
 
 interface ResumeFormProps {
   data: ResumeData;
@@ -237,6 +237,18 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
       </section>
 
       <section className="space-y-6">
+        <h2 className="text-xl font-semibold tracking-tight">
+          Professional Summary
+        </h2>
+        <textarea
+          placeholder="Write a compelling summary of your professional background, key strengths, and career objectives..."
+          value={data.summary}
+          onChange={(e) => updateField('summary', e.target.value)}
+          className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent min-h-[8rem]"
+        />
+      </section>
+
+      <section className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold tracking-tight">
             Experience
@@ -277,6 +289,18 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
               onChange={(e) => updateExperience(exp.id, 'description', e.target.value)}
               className="w-full p-3 rounded-lg h-32"
             />
+            <button
+              type="button"
+              onClick={() => {
+                onChange({
+                  ...data,
+                  experience: data.experience.filter((e) => e.id !== exp.id),
+                });
+              }}
+              className="mt-2 px-3 py-1.5 text-sm rounded-lg bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white"
+            >
+              Remove Experience
+            </button>
           </div>
         ))}
       </section>
@@ -294,34 +318,85 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
           </button>
         </div>
         {data.education.map((edu) => (
-          <div key={edu.id} className="mb-6 p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
+          <div key={edu.id} className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
             <input
               type="text"
               placeholder="School"
               value={edu.school}
               onChange={(e) => updateEducation(edu.id, 'school', e.target.value)}
-              className="w-full p-3 rounded-lg mb-2"
+              className="w-full p-3 rounded-lg mb-2 border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
             />
             <input
               type="text"
               placeholder="Degree"
               value={edu.degree}
               onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)}
-              className="w-full p-3 rounded-lg mb-2"
+              className="w-full p-3 rounded-lg mb-2 border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
             />
             <input
               type="text"
               placeholder="Duration (e.g., 2016 - 2020)"
               value={edu.duration}
               onChange={(e) => updateEducation(edu.id, 'duration', e.target.value)}
-              className="w-full p-3 rounded-lg mb-2"
+              className="w-full p-3 rounded-lg mb-2 border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
             />
             <textarea
-              placeholder="Description"
+              placeholder="Description (e.g., CGPA, achievements, activities)"
               value={edu.description}
               onChange={(e) => updateEducation(edu.id, 'description', e.target.value)}
-              className="w-full p-3 rounded-lg h-32"
+              className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent h-32"
             />
+            <button
+              type="button"
+              onClick={() => {
+                onChange({
+                  ...data,
+                  education: data.education.filter((e) => e.id !== edu.id),
+                });
+              }}
+              className="mt-2 px-3 py-1.5 text-sm rounded-lg bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white"
+            >
+              Remove Education
+            </button>
+          </div>
+        ))}
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold tracking-tight">
+            Achievements
+          </h2>
+          <button
+            type="button"
+            onClick={addAchievement}
+            className="px-3 py-1.5 text-sm rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100"
+          >
+            Add Achievement
+          </button>
+        </div>
+        {data.achievements.map((achievement) => (
+          <div key={achievement.id} className="mb-6 p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
+            <input
+              type="text"
+              value={achievement.title}
+              onChange={(e) => updateAchievement(achievement.id, 'title', e.target.value)}
+              placeholder="Achievement Title"
+              className="w-full p-3 rounded-lg mb-2 border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
+            />
+            <textarea
+              value={achievement.description}
+              onChange={(e) => updateAchievement(achievement.id, 'description', e.target.value)}
+              placeholder="Achievement Description"
+              className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent h-32"
+            />
+            <button
+              type="button"
+              onClick={() => removeAchievement(achievement.id)}
+              className="mt-2 px-3 py-1.5 text-sm rounded-lg bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white"
+            >
+              Remove Achievement
+            </button>
           </div>
         ))}
       </section>
@@ -353,6 +428,18 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
               onChange={(e) => updateProject(proj.id, 'description', e.target.value)}
               className="w-full p-3 rounded-lg h-32"
             />
+            <button
+              type="button"
+              onClick={() => {
+                onChange({
+                  ...data,
+                  projects: data.projects.filter((p) => p.id !== proj.id),
+                });
+              }}
+              className="mt-2 px-3 py-1.5 text-sm rounded-lg bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white"
+            >
+              Remove Project
+            </button>
           </div>
         ))}
       </section>
@@ -399,53 +486,6 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
               >
                 ×
               </button>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="space-y-6">
-        <h2 className="text-xl font-semibold tracking-tight">
-          Achievements
-        </h2>
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-bold">Achievements</h2>
-            <button
-              type="button"
-              onClick={addAchievement}
-              className="px-3 py-1 text-sm rounded-lg"
-            >
-              Add Achievement
-            </button>
-          </div>
-          {data.achievements.map((achievement) => (
-            <div key={achievement.id} className="space-y-2 p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
-              <div className="flex justify-between items-start gap-4">
-                <div className="flex-1 space-y-2">
-                  <input
-                    type="text"
-                    value={achievement.title}
-                    onChange={(e) => updateAchievement(achievement.id, 'title', e.target.value)}
-                    placeholder="Achievement Title"
-                    className="w-full px-3 py-2 rounded-lg"
-                  />
-                  <textarea
-                    value={achievement.description}
-                    onChange={(e) => updateAchievement(achievement.id, 'description', e.target.value)}
-                    placeholder="Achievement Description"
-                    className="w-full px-3 py-2 rounded-lg"
-                    rows={2}
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={() => removeAchievement(achievement.id)}
-                  className="px-2 py-1 text-sm rounded-lg bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700"
-                >
-                  ×
-                </button>
-              </div>
             </div>
           ))}
         </div>

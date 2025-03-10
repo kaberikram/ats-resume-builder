@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import ResumeForm from '@/components/ResumeForm';
 import ResumePreview from '@/components/ResumePreview';
-import { ResumeData } from '@/types';
+import { ResumeData } from '@/types/index';
 
 const sampleProfile: ResumeData = {
   name: 'John Doe',
@@ -14,6 +14,7 @@ const sampleProfile: ResumeData = {
     { id: '1', title: 'Digital Marketing Manager' },
     { id: '2', title: 'Social Media Strategist' }
   ],
+  summary: 'Results-driven Digital Marketing Manager with 5+ years of experience in developing and executing comprehensive marketing strategies. Proven track record of increasing brand visibility, engagement, and ROI through data-driven campaigns and innovative social media initiatives. Skilled in leading cross-functional teams and adapting to rapidly evolving digital landscapes.',
   experience: [
     {
       id: '1',

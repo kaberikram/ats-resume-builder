@@ -1,5 +1,5 @@
+import { ResumeData } from '@/types/index';
 import dynamic from 'next/dynamic';
-import { ResumeData } from '@/types';
 
 const PDFPreview = dynamic(() => import('./PDFPreview'), {
   ssr: false,

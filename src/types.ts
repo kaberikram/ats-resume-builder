@@ -41,6 +41,7 @@ export interface ResumeData {
   phone: string;
   location: string;
   roles: Role[];
+  summary: string;
   experience: Experience[];
   education: Education[];
   projects: Project[];
