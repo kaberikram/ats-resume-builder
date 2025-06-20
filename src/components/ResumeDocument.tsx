@@ -97,7 +97,8 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
     },
     duration: {
       fontSize: 11,
-      color: theme === 'light' ? '#666666' : '#999999',
+      fontFamily: 'Helvetica-Bold',
+      color: theme === 'light' ? '#000000' : '#ffffff',
       textAlign: 'right',
       marginLeft: 10,
     },
@@ -165,7 +166,10 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
                     <Text style={styles.companyName}>{exp.company}</Text>
                     <Text style={styles.jobTitle}>{exp.title}</Text>
                   </View>
-                  <Text style={styles.duration}>{exp.duration}</Text>
+                  <View style={{ alignItems: 'flex-end' }}>
+                    <Text style={styles.duration}>{exp.duration}</Text>
+                    {exp.location && <Text style={[styles.description, { fontSize: 10, color: theme === 'light' ? '#666666' : '#999999' }]}>{exp.location}</Text>}
+                  </View>
                 </View>
                 {getBulletPoints(exp.description).map((point, index) => (
                   <View key={index} style={styles.bulletPoint}>
@@ -185,10 +189,15 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
             {data.education.map((edu: Education) => (
               <View key={edu.id} style={styles.experienceItem}>
                 <View style={styles.companyHeader}>
-                  <Text style={styles.companyName}>{edu.school}</Text>
-                  <Text style={styles.duration}>{edu.duration}</Text>
+                  <View style={styles.company}>
+                    <Text style={styles.companyName}>{edu.school}</Text>
+                    <Text style={styles.jobTitle}>{edu.degree}</Text>
+                  </View>
+                  <View style={{ alignItems: 'flex-end' }}>
+                    <Text style={styles.duration}>{edu.duration}</Text>
+                    {edu.location && <Text style={[styles.description, { fontSize: 10, color: theme === 'light' ? '#666666' : '#999999' }]}>{edu.location}</Text>}
+                  </View>
                 </View>
-                <Text style={styles.jobTitle}>{edu.degree}</Text>
                 {edu.description && (
                   <Text style={styles.description}>{edu.description}</Text>
                 )}

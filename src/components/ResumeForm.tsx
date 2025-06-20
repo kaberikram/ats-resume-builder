@@ -53,6 +53,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
           title: '',
           company: '',
           position: '',
+          location: '',
           startDate: '',
           endDate: '',
           duration: '',
@@ -81,6 +82,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
           degree: '',
           school: '',
           field: '',
+          location: '',
           graduationDate: '',
           duration: '',
           description: '',
@@ -295,6 +297,13 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
             />
             <input
               type="text"
+              placeholder="Location"
+              value={exp.location}
+              onChange={(e) => updateExperience(exp.id, 'location', e.target.value)}
+              className="w-full p-3 rounded-lg mb-2"
+            />
+            <input
+              type="text"
               placeholder="Duration (e.g., Jan 2020 - Present)"
               value={exp.duration}
               onChange={(e) => updateExperience(exp.id, 'duration', e.target.value)}
@@ -348,6 +357,13 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
               placeholder="Degree"
               value={edu.degree}
               onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)}
+              className="w-full p-3 rounded-lg mb-2 border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
+            />
+            <input
+              type="text"
+              placeholder="Location"
+              value={edu.location}
+              onChange={(e) => updateEducation(edu.id, 'location', e.target.value)}
               className="w-full p-3 rounded-lg mb-2 border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
             />
             <input
