@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ResumeData, Experience, Education, Project, Achievement, Role } from '@/types/index';
+import ImageCropper from './ImageCropper';
 
 interface ResumeFormProps {
   data: ResumeData;
@@ -7,6 +8,9 @@ interface ResumeFormProps {
 }
 
 export default function ResumeForm({ data, onChange }: ResumeFormProps) {
+  const [showCropper, setShowCropper] = useState(false);
+  const [tempImageSrc, setTempImageSrc] = useState<string>('');
+
   const updateField = (field: keyof ResumeData, value: any) => {
     onChange({
       ...data,
@@ -182,8 +186,43 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
     });
   };
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setTempImageSrc(result);
+        setShowCropper(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCropComplete = (croppedImageUrl: string) => {
+    updateField('profileImage', croppedImageUrl);
+    setShowCropper(false);
+    setTempImageSrc('');
+  };
+
+  const handleCropCancel = () => {
+    setShowCropper(false);
+    setTempImageSrc('');
+  };
+
+  const removeImage = () => {
+    updateField('profileImage', undefined);
+  };
+
   return (
     <div className="space-y-8 p-4 sm:p-6 max-w-3xl mx-auto">
+      {showCropper && (
+        <ImageCropper
+          src={tempImageSrc}
+          onCropComplete={handleCropComplete}
+          onCancel={handleCropCancel}
+        />
+      )}
       <section className="space-y-6">
         <h2 className="text-xl font-semibold tracking-tight">
           Personal Information
@@ -196,6 +235,33 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
             onChange={(e) => updateField('name', e.target.value)}
             className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent"
           />
+          
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Profile Picture (optional)</label>
+            {data.profileImage ? (
+              <div className="flex items-center gap-4">
+                <img 
+                  src={data.profileImage} 
+                  alt="Profile" 
+                  className="w-20 h-20 rounded-full object-cover border border-neutral-200 dark:border-neutral-800"
+                />
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="px-3 py-1.5 text-sm rounded-lg bg-red-500 hover:bg-red-600 text-white"
+                >
+                  Remove Image
+                </button>
+              </div>
+            ) : (
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-neutral-50 file:text-neutral-700 hover:file:bg-neutral-100"
+              />
+            )}
+          </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium">Professional Roles</label>

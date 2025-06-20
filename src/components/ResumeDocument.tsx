@@ -1,4 +1,4 @@
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import { ResumeData, Experience, Education, Project, Achievement } from '@/types/index';
 
 // Function to split description into bullet points
@@ -24,16 +24,47 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
       textAlign: 'center',
       marginBottom: 15,
     },
+    headerWithImage: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      marginBottom: 15,
+      gap: 20,
+    },
+    profileImage: {
+      width: 96,
+      height: 96,
+      borderRadius: 0,
+      objectFit: 'cover',
+    },
+    headerText: {
+      flex: 1,
+      textAlign: 'left',
+      justifyContent: 'flex-start',
+    },
     name: {
       fontSize: 24,
       fontWeight: 'bold',
       textAlign: 'center',
       marginBottom: 4,
     },
+    nameLeft: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      textAlign: 'left',
+      marginBottom: 2,
+      marginTop: 0,
+    },
     title: {
       fontSize: 16,
       textAlign: 'center',
       marginBottom: 8,
+      color: theme === 'light' ? '#666666' : '#999999',
+    },
+    titleLeft: {
+      fontSize: 16,
+      textAlign: 'left',
+      marginBottom: 4,
+      marginTop: 0,
       color: theme === 'light' ? '#666666' : '#999999',
     },
     contactInfo: {
@@ -45,8 +76,17 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
       color: theme === 'light' ? '#333333' : '#cccccc',
       marginTop: 4,
     },
+    contactInfoLeft: {
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      flexWrap: 'wrap',
+      gap: 10,
+      fontSize: 10,
+      color: theme === 'light' ? '#333333' : '#cccccc',
+      marginTop: 2,
+    },
     contactItem: {
-      marginHorizontal: 5,
+      marginHorizontal: 0,
     },
     section: {
       marginTop: 12,
@@ -134,18 +174,36 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
     <Document title={`${data.name}'s Resume`} author={data.name}>
       <Page size="A4" style={styles.page}>
         {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.name}>{data.name}</Text>
-          <Text style={styles.title}>
-            {data.roles.map(role => role.title).join(' | ')}
-          </Text>
-          <View style={styles.contactInfo}>
-            <Text style={styles.contactItem}>{data.phone}</Text>
-            <Text style={styles.contactItem}>{data.email}</Text>
-            <Text style={styles.contactItem}>{data.location}</Text>
-            {data.linkedin && <Text style={styles.contactItem}>{data.linkedin}</Text>}
+        {data.profileImage ? (
+          <View style={styles.headerWithImage}>
+            <Image src={data.profileImage} style={styles.profileImage} />
+            <View style={styles.headerText}>
+              <Text style={styles.nameLeft}>{data.name}</Text>
+              <Text style={styles.titleLeft}>
+                {data.roles.map(role => role.title).join(' | ')}
+              </Text>
+              <View style={styles.contactInfoLeft}>
+                <Text style={styles.contactItem}>{data.phone}</Text>
+                <Text style={styles.contactItem}>{data.email}</Text>
+                <Text style={styles.contactItem}>{data.location}</Text>
+                {data.linkedin && <Text style={styles.contactItem}>{data.linkedin}</Text>}
+              </View>
+            </View>
           </View>
-        </View>
+        ) : (
+          <View style={styles.header}>
+            <Text style={styles.name}>{data.name}</Text>
+            <Text style={styles.title}>
+              {data.roles.map(role => role.title).join(' | ')}
+            </Text>
+            <View style={styles.contactInfo}>
+              <Text style={styles.contactItem}>{data.phone}</Text>
+              <Text style={styles.contactItem}>{data.email}</Text>
+              <Text style={styles.contactItem}>{data.location}</Text>
+              {data.linkedin && <Text style={styles.contactItem}>{data.linkedin}</Text>}
+            </View>
+          </View>
+        )}
 
         {/* Summary */}
         {data.summary && (

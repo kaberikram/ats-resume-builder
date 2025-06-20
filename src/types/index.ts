@@ -54,6 +54,7 @@ export interface ResumeData {
   phone: string;
   location: string;
   linkedin?: string;
+  profileImage?: string;
   summary: string;
   roles: Role[];
   experience: Experience[];
