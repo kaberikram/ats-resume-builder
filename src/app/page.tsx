@@ -75,6 +75,25 @@ const sampleProfile: ResumeData = {
     'Bahasa Malaysia (Native)',
     'Mandarin (Conversational)'
   ],
+  sectionTitles: {
+    summary: 'Professional Summary',
+    experience: 'Experience',
+    education: 'Education',
+    achievements: 'Achievements',
+    projects: 'Key Projects',
+    skills: 'Skills',
+    languages: 'Languages',
+  },
+  visibleSections: {
+    summary: true,
+    experience: true,
+    education: true,
+    achievements: true,
+    projects: true,
+    skills: true,
+    languages: true,
+  },
+  customSections: [],
 };
 
 export default function Home() {

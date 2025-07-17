@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ResumeData, Experience, Education, Project, Achievement, Role } from '@/types/index';
+import { ResumeData, Experience, Education, Project, Achievement, Role, CustomEntry } from '@/types/index';
 import ImageCropper from './ImageCropper';
 
 interface ResumeFormProps {
@@ -214,6 +214,111 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
     updateField('profileImage', undefined);
   };
 
+  // Helper to update section titles
+  const defaultSectionTitles = {
+    summary: 'Professional Summary',
+    experience: 'Experience',
+    education: 'Education',
+    achievements: 'Achievements',
+    projects: 'Key Projects',
+    skills: 'Skills',
+    languages: 'Languages',
+  };
+  const sectionTitles = { ...defaultSectionTitles, ...data.sectionTitles };
+
+  const updateSectionTitle = (key: keyof typeof sectionTitles, value: string) => {
+    onChange({
+      ...data,
+      sectionTitles: {
+        ...sectionTitles,
+        [key]: value,
+      },
+    });
+  };
+
+  const defaultVisibleSections = {
+    summary: true,
+    experience: true,
+    education: true,
+    achievements: true,
+    projects: true,
+    skills: true,
+    languages: true,
+  };
+  const visibleSections = { ...defaultVisibleSections, ...data.visibleSections };
+
+  const toggleSectionVisibility = (section: keyof typeof defaultVisibleSections) => {
+    onChange({
+      ...data,
+      visibleSections: {
+        ...defaultVisibleSections,
+        ...data.visibleSections,
+        [section]: !(data.visibleSections?.[section] ?? true),
+      },
+    });
+  };
+
+  const addCustomSection = () => {
+    const newId = Date.now().toString();
+    onChange({
+      ...data,
+      customSections: [
+        ...(data.customSections || []),
+        { id: newId, title: 'New Section', type: '', entries: [] },
+      ],
+    });
+  };
+
+  const updateCustomSection = (id: string, field: 'title' | 'type' | 'entries' | 'content', value: any) => {
+    onChange({
+      ...data,
+      customSections: data.customSections?.map(sec =>
+        sec.id === id ? { ...sec, [field]: value } : sec
+      ),
+    });
+  };
+
+  const addCustomEntry = (sectionId: string) => {
+    const entryId = Date.now().toString();
+    onChange({
+      ...data,
+      customSections: data.customSections?.map(sec =>
+        sec.id === sectionId
+          ? { ...sec, entries: [...(sec.entries || []), { id: entryId, title: '', organization: '', date: '', location: '', description: '' }] }
+          : sec
+      ),
+    });
+  };
+
+  const updateCustomEntry = (sectionId: string, entryId: string, field: keyof CustomEntry, value: string) => {
+    onChange({
+      ...data,
+      customSections: data.customSections?.map(sec =>
+        sec.id === sectionId
+          ? { ...sec, entries: (sec.entries || []).map(e => e.id === entryId ? { ...e, [field]: value } : e) }
+          : sec
+      ),
+    });
+  };
+
+  const deleteCustomEntry = (sectionId: string, entryId: string) => {
+    onChange({
+      ...data,
+      customSections: data.customSections?.map(sec =>
+        sec.id === sectionId
+          ? { ...sec, entries: (sec.entries || []).filter(e => e.id !== entryId) }
+          : sec
+      ),
+    });
+  };
+
+  const deleteCustomSection = (id: string) => {
+    onChange({
+      ...data,
+      customSections: data.customSections?.filter(sec => sec.id !== id),
+    });
+  };
+
   return (
     <div className="space-y-8 p-4 sm:p-6 max-w-3xl mx-auto">
       {showCropper && (
@@ -322,21 +427,44 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
       </section>
 
       <section className="space-y-6">
-        <h2 className="text-xl font-semibold tracking-tight">
-          Professional Summary
-        </h2>
-        <textarea
-          placeholder="Write a compelling summary of your professional background, key strengths, and career objectives..."
-          value={data.summary}
-          onChange={(e) => updateField('summary', e.target.value)}
-          className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent min-h-[8rem]"
-        />
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold tracking-tight flex items-center gap-2">
+            <input
+              type="text"
+              value={sectionTitles.summary}
+              onChange={e => updateSectionTitle('summary', e.target.value)}
+              className="bg-transparent font-semibold text-xl w-auto flex-1 focus:outline-none border-b border-dashed border-neutral-300 dark:border-neutral-700"
+              style={{ minWidth: 120 }}
+            />
+          </h2>
+          <button
+            type="button"
+            onClick={() => toggleSectionVisibility('summary')}
+            className="text-xs px-2 py-1 rounded bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 ml-2"
+          >
+            {visibleSections.summary === false ? 'Show' : 'Hide'} Section
+          </button>
+        </div>
+        {visibleSections.summary && (
+          <textarea
+            placeholder="Write a compelling summary of your professional background, key strengths, and career objectives..."
+            value={data.summary}
+            onChange={(e) => updateField('summary', e.target.value)}
+            className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent min-h-[8rem]"
+          />
+        )}
       </section>
 
       <section className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold tracking-tight">
-            Experience
+          <h2 className="text-xl font-semibold tracking-tight flex items-center gap-2">
+            <input
+              type="text"
+              value={sectionTitles.experience}
+              onChange={e => updateSectionTitle('experience', e.target.value)}
+              className="bg-transparent font-semibold text-xl w-auto flex-1 focus:outline-none border-b border-dashed border-neutral-300 dark:border-neutral-700"
+              style={{ minWidth: 120 }}
+            />
           </h2>
           <button 
             onClick={addExperience} 
@@ -399,8 +527,14 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
 
       <section className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold tracking-tight">
-            Education
+          <h2 className="text-xl font-semibold tracking-tight flex items-center gap-2">
+            <input
+              type="text"
+              value={sectionTitles.education}
+              onChange={e => updateSectionTitle('education', e.target.value)}
+              className="bg-transparent font-semibold text-xl w-auto flex-1 focus:outline-none border-b border-dashed border-neutral-300 dark:border-neutral-700"
+              style={{ minWidth: 120 }}
+            />
           </h2>
           <button 
             onClick={addEducation} 
@@ -463,8 +597,14 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
 
       <section className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold tracking-tight">
-            Achievements
+          <h2 className="text-xl font-semibold tracking-tight flex items-center gap-2">
+            <input
+              type="text"
+              value={sectionTitles.achievements}
+              onChange={e => updateSectionTitle('achievements', e.target.value)}
+              className="bg-transparent font-semibold text-xl w-auto flex-1 focus:outline-none border-b border-dashed border-neutral-300 dark:border-neutral-700"
+              style={{ minWidth: 120 }}
+            />
           </h2>
           <button
             type="button"
@@ -502,8 +642,14 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
 
       <section className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold tracking-tight">
-            Key Projects
+          <h2 className="text-xl font-semibold tracking-tight flex items-center gap-2">
+            <input
+              type="text"
+              value={sectionTitles.projects}
+              onChange={e => updateSectionTitle('projects', e.target.value)}
+              className="bg-transparent font-semibold text-xl w-auto flex-1 focus:outline-none border-b border-dashed border-neutral-300 dark:border-neutral-700"
+              style={{ minWidth: 120 }}
+            />
           </h2>
           <button 
             onClick={addProject} 
@@ -544,21 +690,44 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
       </section>
 
       <section className="space-y-6">
-        <h2 className="text-xl font-semibold tracking-tight">
-          Skills
-        </h2>
-        <textarea
-          placeholder="Enter skills separated by commas"
-          value={data.skills.join(', ')}
-          onChange={(e) => updateSkills(e.target.value)}
-          className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent min-h-[8rem]"
-        />
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold tracking-tight flex items-center gap-2">
+            <input
+              type="text"
+              value={sectionTitles.skills}
+              onChange={e => updateSectionTitle('skills', e.target.value)}
+              className="bg-transparent font-semibold text-xl w-auto flex-1 focus:outline-none border-b border-dashed border-neutral-300 dark:border-neutral-700"
+              style={{ minWidth: 120 }}
+            />
+          </h2>
+          <button
+            type="button"
+            onClick={() => toggleSectionVisibility('skills')}
+            className="text-xs px-2 py-1 rounded bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 ml-2"
+          >
+            {visibleSections.skills === false ? 'Show' : 'Hide'} Section
+          </button>
+        </div>
+        {visibleSections.skills && (
+          <textarea
+            placeholder="Enter skills separated by commas"
+            value={data.skills.join(', ')}
+            onChange={(e) => updateSkills(e.target.value)}
+            className="w-full p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent min-h-[8rem]"
+          />
+        )}
       </section>
 
       <section className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold tracking-tight">
-            Languages
+          <h2 className="text-xl font-semibold tracking-tight flex items-center gap-2">
+            <input
+              type="text"
+              value={sectionTitles.languages}
+              onChange={e => updateSectionTitle('languages', e.target.value)}
+              className="bg-transparent font-semibold text-xl w-auto flex-1 focus:outline-none border-b border-dashed border-neutral-300 dark:border-neutral-700"
+              style={{ minWidth: 120 }}
+            />
           </h2>
           <button
             type="button"
@@ -588,6 +757,111 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold tracking-tight">Custom Sections</h2>
+          <button
+            type="button"
+            onClick={addCustomSection}
+            className="px-3 py-1.5 text-sm rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100"
+          >
+            Add Custom Section
+          </button>
+        </div>
+        {data.customSections?.map(sec => (
+          <div key={sec.id} className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <input
+                type="text"
+                value={sec.title}
+                onChange={e => updateCustomSection(sec.id, 'title', e.target.value)}
+                placeholder="Section Title"
+                className="w-full p-2 font-semibold text-lg border-b border-dashed border-neutral-300 dark:border-neutral-700 bg-transparent"
+              />
+              <button
+                type="button"
+                onClick={() => deleteCustomSection(sec.id)}
+                className="text-xs px-2 py-1 rounded bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800"
+              >
+                Delete
+              </button>
+            </div>
+            <select
+              value={sec.type || ''}
+              onChange={e => updateCustomSection(sec.id, 'type', e.target.value)}
+              className="w-full p-2 mb-2 border border-neutral-200 dark:border-neutral-800 rounded bg-white text-black dark:bg-neutral-900 dark:text-white"
+            >
+              <option value="" disabled>Select Section Type…</option>
+              <option value="entry">Entry-based (like Experience/Education)</option>
+              <option value="text">Text-based (like Skills/Summary)</option>
+            </select>
+            {sec.type === 'entry' ? (
+              <div>
+                {(sec.entries || []).map(entry => (
+                  <div key={entry.id} className="mb-4 p-3 border rounded">
+                    <input
+                      type="text"
+                      value={entry.title}
+                      onChange={e => updateCustomEntry(sec.id, entry.id, 'title', e.target.value)}
+                      placeholder="Title/Position"
+                      className="w-full p-2 mb-2"
+                    />
+                    <input
+                      type="text"
+                      value={entry.organization}
+                      onChange={e => updateCustomEntry(sec.id, entry.id, 'organization', e.target.value)}
+                      placeholder="Organization/Company/School"
+                      className="w-full p-2 mb-2"
+                    />
+                    <input
+                      type="text"
+                      value={entry.location}
+                      onChange={e => updateCustomEntry(sec.id, entry.id, 'location', e.target.value)}
+                      placeholder="Location"
+                      className="w-full p-2 mb-2"
+                    />
+                    <input
+                      type="text"
+                      value={entry.date}
+                      onChange={e => updateCustomEntry(sec.id, entry.id, 'date', e.target.value)}
+                      placeholder="Date/Duration"
+                      className="w-full p-2 mb-2"
+                    />
+                    <textarea
+                      value={entry.description}
+                      onChange={e => updateCustomEntry(sec.id, entry.id, 'description', e.target.value)}
+                      placeholder="Description"
+                      className="w-full p-2 mb-2"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => deleteCustomEntry(sec.id, entry.id)}
+                      className="text-xs px-2 py-1 rounded bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800"
+                    >
+                      Remove Entry
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => addCustomEntry(sec.id)}
+                  className="px-3 py-1.5 text-sm rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100"
+                >
+                  Add Entry
+                </button>
+              </div>
+            ) : (
+              <textarea
+                value={sec.content?.[0] || ''}
+                onChange={e => updateCustomSection(sec.id, 'content', [e.target.value])}
+                placeholder="Section Content"
+                className="w-full p-2 h-24 border border-neutral-200 dark:border-neutral-800 rounded"
+              />
+            )}
+          </div>
+        ))}
       </section>
     </div>
   );

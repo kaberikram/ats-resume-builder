@@ -170,6 +170,28 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
     },
   });
 
+  const defaultSectionTitles = {
+    summary: 'Professional Summary',
+    experience: 'Experience',
+    education: 'Education',
+    achievements: 'Achievements',
+    projects: 'Key Projects',
+    skills: 'Skills',
+    languages: 'Languages',
+  };
+  const sectionTitles = { ...defaultSectionTitles, ...data.sectionTitles };
+
+  const defaultVisibleSections = {
+    summary: true,
+    experience: true,
+    education: true,
+    achievements: true,
+    projects: true,
+    skills: true,
+    languages: true,
+  };
+  const visibleSections = { ...defaultVisibleSections, ...data.visibleSections };
+
   return (
     <Document title={`${data.name}'s Resume`} author={data.name}>
       <Page size="A4" style={styles.page}>
@@ -206,17 +228,17 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
         )}
 
         {/* Summary */}
-        {data.summary && (
+        {visibleSections.summary && data.summary && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Professional Summary</Text>
+            <Text style={styles.sectionTitle}>{sectionTitles.summary}</Text>
             <Text style={styles.description}>{data.summary}</Text>
           </View>
         )}
 
         {/* Experience */}
-        {data.experience.length > 0 && (
+        {visibleSections.experience && data.experience.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Experience</Text>
+            <Text style={styles.sectionTitle}>{sectionTitles.experience}</Text>
             {data.experience.map((exp: Experience) => (
               <View key={exp.id} style={styles.experienceItem}>
                 <View style={styles.companyHeader}>
@@ -241,9 +263,9 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
         )}
 
         {/* Education */}
-        {data.education.length > 0 && (
+        {visibleSections.education && data.education.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Education</Text>
+            <Text style={styles.sectionTitle}>{sectionTitles.education}</Text>
             {data.education.map((edu: Education) => (
               <View key={edu.id} style={styles.experienceItem}>
                 <View style={styles.companyHeader}>
@@ -265,9 +287,9 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
         )}
 
         {/* Achievements */}
-        {data.achievements.length > 0 && (
+        {visibleSections.achievements && data.achievements.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Achievements</Text>
+            <Text style={styles.sectionTitle}>{sectionTitles.achievements}</Text>
             {data.achievements.map((achievement: Achievement) => (
               <View key={achievement.id} style={styles.experienceItem}>
                 <Text style={styles.achievementTitle}>{achievement.title}</Text>
@@ -278,9 +300,9 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
         )}
 
         {/* Projects */}
-        {data.projects.length > 0 && (
+        {visibleSections.projects && data.projects.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Key Projects</Text>
+            <Text style={styles.sectionTitle}>{sectionTitles.projects}</Text>
             {data.projects.map((proj: Project) => (
               <View key={proj.id} style={styles.experienceItem}>
                 <Text style={styles.projectTitle}>{proj.name}</Text>
@@ -291,9 +313,9 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
         )}
 
         {/* Skills */}
-        {data.skills.length > 0 && (
+        {visibleSections.skills && data.skills.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Skills</Text>
+            <Text style={styles.sectionTitle}>{sectionTitles.skills}</Text>
             <View style={styles.skills}>
               {data.skills.map((skill, index) => (
                 <Text key={skill}>
@@ -308,9 +330,9 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
         )}
 
         {/* Languages */}
-        {data.languages?.length > 0 && (
+        {visibleSections.languages && data.languages?.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Languages</Text>
+            <Text style={styles.sectionTitle}>{sectionTitles.languages}</Text>
             <View style={styles.skills}>
               {data.languages.map((language: string, index: number) => (
                 <Text key={language}>
@@ -323,6 +345,34 @@ export default function ResumeDocument({ data, theme }: ResumeDocumentProps) {
             </View>
           </View>
         )}
+
+        {/* Custom Sections */}
+        {data.customSections?.map(sec => (
+          <View key={sec.id} style={styles.section}>
+            <Text style={styles.sectionTitle}>{sec.title}</Text>
+            {sec.type === 'entry' && sec.entries && sec.entries.length > 0 ? (
+              sec.entries.map(entry => (
+                <View key={entry.id} style={styles.experienceItem}>
+                  <View style={styles.companyHeader}>
+                    <View style={styles.company}>
+                      <Text style={styles.companyName}>{entry.organization}</Text>
+                      <Text style={styles.jobTitle}>{entry.title}</Text>
+                    </View>
+                    <View style={{ alignItems: 'flex-end' }}>
+                      <Text style={styles.duration}>{entry.date}</Text>
+                      {entry.location && <Text style={[styles.description, { fontSize: 10, color: theme === 'light' ? '#666666' : '#999999' }]}>{entry.location}</Text>}
+                    </View>
+                  </View>
+                  {entry.description && (
+                    <Text style={styles.description}>{entry.description}</Text>
+                  )}
+                </View>
+              ))
+            ) : sec.type === 'text' && (sec.content?.[0] ?? '').trim() !== '' ? (
+              <Text style={styles.description}>{sec.content?.[0]}</Text>
+            ) : null}
+          </View>
+        ))}
       </Page>
     </Document>
   );

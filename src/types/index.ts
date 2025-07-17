@@ -48,6 +48,33 @@ export interface Role {
   title: string;
 }
 
+export interface SectionTitles {
+  summary: string;
+  experience: string;
+  education: string;
+  achievements: string;
+  projects: string;
+  skills: string;
+  languages: string;
+}
+
+export interface CustomEntry {
+  id: string;
+  title: string;
+  organization?: string;
+  date?: string;
+  location?: string;
+  description?: string;
+}
+
+export interface CustomSection {
+  id: string;
+  title: string;
+  type: '' | 'entry' | 'text';
+  entries?: CustomEntry[]; // For entry-based
+  content?: string[];      // For text-based
+}
+
 export interface ResumeData {
   name: string;
   email: string;
@@ -63,4 +90,15 @@ export interface ResumeData {
   achievements: Achievement[];
   skills: string[];
   languages: string[];
+  sectionTitles?: SectionTitles;
+  visibleSections?: {
+    summary: boolean;
+    experience: boolean;
+    education: boolean;
+    achievements: boolean;
+    projects: boolean;
+    skills: boolean;
+    languages: boolean;
+  };
+  customSections?: CustomSection[];
 } 
